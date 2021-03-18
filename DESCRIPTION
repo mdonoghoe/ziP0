@@ -1,11 +1,15 @@
 Package: ziP0
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Provides a Joint Binomial-Poisson Family for mgcv
+Description: A small package that provides a joint binomial-Poisson
+    family that can be used with mgcv. Appropriate for cases when an outcome 
+    can be a fixed zero, and (unlike zero-inflated Poisson) these observations
+    can be identified separately from zero counts.
+Version: 0.1.9000
+Authors@R: person("Mark W.", "Donoghoe", email = "markdonoghoe@gmail.com",
+                  role = c("aut", "cre"))
+Depends: R (>= 4.0.0), mgcv (>= 1.8-8)
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/mdonoghoe/ziP0
