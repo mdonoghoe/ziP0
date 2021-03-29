@@ -1,0 +1,37 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# ziP0
+
+`ziP0` is a small package that provides a joint binomial--Poisson distribution family for use with `mgcv`.
+
+It uses the same concept as the `ziP` family in `mgcv`, which is for a zero-inflated Poisson distribution where the zero-inflation parameter is related to the Poisson parameter, except that we are able to identify which zeroes are fixed zeroes and which are zero counts. An example of where this could be useful is in predicting the number of oocytes retrieved in IVF cycles: zero oocytes could be retrieved because the cycle is cancelled (fixed zeroes), and the probability of that occurring is related to the expected number of oocytes.
+
+Fixed zeroes should appear as `-1` in the data.
+
+An example:
+
+```{r, echo = TRUE, warning = FALSE}
+require(ziP0, quietly = TRUE)
+example(ziP0)
+```
+
+## Installation
+
+This relies on calling internal functions in `mgcv`, so will likely never appear on CRAN (["Also, `:::` should not be used to access undocumented/internal objects in base packages."](https://cran.r-project.org/web/packages/policies.html#Source-packages-1)). But you can install the development version from github:
+
+```{r, echo = TRUE, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("mdonoghoe/ziP0")
+```
