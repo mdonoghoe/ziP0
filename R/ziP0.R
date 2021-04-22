@@ -50,7 +50,7 @@ ziP0 <- function (theta = NULL, link = "identity", b = 0) {
     n.theta <- 0 ## no thetas to estimate
   } else iniTheta <- c(0,0) ## inital theta value - start at 1 - p = Pr(y > 0)
 
-  env <- new.env(parent = environment(ziP))# new.env(parent = .GlobalEnv)
+  env <- new.env(parent = environment(ziP0))# new.env(parent = .GlobalEnv)
 
   if (b<0) b <- 0; assign(".b", b, envir = env)
   assign(".Theta", iniTheta, envir = env)

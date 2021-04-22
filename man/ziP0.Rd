@@ -8,7 +8,7 @@ when the complimentary log log of the binomial (fixed) zero probability is linea
 \code{zip0ll} evaluates the log-likelihood and its derivatives. It is a helper function that should not be called directly.
 }
 \usage{
-ziP0(theta = NULL, link = "identity",b=0)
+ziP0(theta = NULL, link = "identity", b = 0)
 zip0ll(y, g, eta, deriv = 0)
 }
 \arguments{
@@ -22,10 +22,25 @@ then treated as fixed parameters (\eqn{\theta_1}{theta_1} and \eqn{\theta_2}{the
 \item{eta}{Value of \eqn{\eta}{eta} parameter.}
 \item{deriv}{Which derivatives are desired. 0 = evaluate log-likelihood only; 1 = also grad and Hessian; 2 = also third derivatives; 4 = also fourth derivatives.}
 }
-\details{The probability of a fixed zero is given by \eqn{1-p}{1- p}, whereas the probability of
-count \eqn{y>0}{y>0} is given by the truncated Poisson probability function \eqn{p\mu^y/((\exp(\mu)-1)y!)}{(pmu^y/((exp(mu)-1)y!)}. The linear predictor
-gives \eqn{\log \mu}{log(mu)}, while \eqn{\eta = \log(-\log(1-p)) }{eta=log(-log(1-p))} and \eqn{\eta = \theta_1 + \{b+\exp(\theta_2)\} \log \mu }{eta = theta_1 + (b+exp(theta_2)) log(mu)}. The \code{theta} parameters are estimated alongside the smoothing parameters. Increasing the \code{b} parameter from zero can greatly reduce identifiability problems, particularly when there are very few non-zero data.
-The fitted values for this model are the log of the Poisson parameter. Use the \code{predict} function with \code{type=="response"} to get the predicted expected response. Note that the theta parameters reported in model summaries are \eqn{\theta_1}{theta_1} and \eqn{b + \exp(\theta_2)}{b + exp(theta_2)}.
+\details{The outcome is a fixed zero (\code{-1}) with probability \eqn{1-\pi}{1-\pi},
+and with probability \eqn{\pi}{\pi} follows a Poisson distribution with mean \eqn{\mu}{mu}.
+
+The linear predictor gives \eqn{\gamma = \log \mu}{gamma = log(mu)}, while
+\eqn{\eta = \log(-\log(1-\pi)) }{eta=log(-log(1-\pi))} and
+\eqn{\eta = \theta_1 + \{b+\exp(\theta_2)\} \log \mu }{eta = theta_1 + (b+exp(theta_2)) gamma}.
+
+The \code{theta} parameters are estimated alongside the smoothing parameters.
+Increasing the \code{b} parameter from zero can greatly reduce identifiability
+problems, particularly when there are very few non-fixed-zero data.
+
+The fitted values for this model are the log of the Poisson parameter. Use the
+\code{predict} function with \code{type="response"} to get the predicted expected
+response (where fixed zeroes are treated as zeroes), or \code{\link{predict.ziP0}}
+to get the binomial and Poisson expectations separately.
+
+Note that the theta parameters reported in model summaries (or with
+\code{getTheta(trans = TRUE)}) are
+\eqn{\omega_1 = \theta_1}{omega_1 = theta_1} and \eqn{\omega_2 = b + \exp(\theta_2)}{omega_2 = b + exp(theta_2)}.
 }
 \value{
 An object of class \code{extended.family}.
@@ -44,23 +59,10 @@ Mark W. Donoghoe \email{markdonoghoe@gmail.com}; based heavily on \code{\link[mg
 \code{\link[mgcv]{ziP}}, \code{\link[mgcv]{ziplss}}
 }
 \examples{
-# Generate joint binomial-Poisson random variables
-rzip0 <- function(gamma, theta = c(-2, 0.3)) {
-  # Poisson part
-  lambda <- exp(gamma)
-  y <- rpois(length(gamma), lambda)
-  # Binomial part
-  eta <- theta[1] + exp(theta[2])*gamma
-  p <- 1 - exp(-exp(eta))
-  ind <- (p > runif(length(y)))
-  y[!ind] <- -1
-  y
-}
-
 set.seed(99)
 n <- 400
 dat <- gamSim(1, n = n)
-dat$y <- rzip0(dat$f/4 - 1)
+dat$y <- rziP0(n = n, lambda = exp(dat$f/4 - 1), omega = c(-2, 1.3))
 
 b <- gam(y ~ s(x0) + s(x1) + s(x2) + s(x3), family = ziP0(), data = dat)
 

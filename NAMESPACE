@@ -1,2 +1,7 @@
 export(ziP0)
 export(zip0ll)
+export(predict.ziP0)
+export(dziP0)
+export(pziP0)
+export(qziP0)
+export(rziP0)
