@@ -21,9 +21,6 @@
   \item{n}{number of random values to return.}
   \item{lambda}{vector of (non-negative) means for the Poisson count.}
   \item{omega}{vector of length 2 controlling the relationship between binomial probability and Poisson mean. See details.}
-  \item{theta}{the 2 parameters controlling the slope and intercept of the
-    linear transform of the mean controlling the zero inflation rate. If supplied
-    then treated as fixed parameters (\eqn{\theta_1}{theta_1} and \eqn{\theta_2}{theta_2}), otherwise estimated.}
   \item{log, log.p}{logical; if \code{TRUE}, probabilities p are given as log(p).}
   \item{lower.tail}{logical; if TRUE (default), probabilities are
     \eqn{Pr[X \le x]}, otherwise, \eqn{Pr[X > x]}.}
