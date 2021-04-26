@@ -60,7 +60,7 @@ qziP0 <- function(p, lambda, omega, lower.tail = TRUE, log.p = FALSE) {
     ifelse(1 - prob >= p, ifelse(p < 0, NaN, -1),
            qpois(1 - (1 - p) / prob, lambda = lambda, lower.tail = TRUE, log.p = FALSE))
   } else {
-    ifelse(prob < p, -1,
+    ifelse(prob <= p, ifelse(p > 1, NaN, -1),
            qpois(p / prob, lambda = lambda, lower.tail = FALSE, log.p = FALSE))
   }
 }
