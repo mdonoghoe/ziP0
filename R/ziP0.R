@@ -299,7 +299,7 @@ ziP0 <- function (theta = NULL, link = "identity", b = 0) {
       dp.dg <- p
       ind <- eta < log(.Machine$double.xmax)/2
       dp.dg[!ind] <- 0
-      dp.dg <- exp(-et)*et*exp(theta[2])
+      dp.dg <- exp(-et)*et*exp(b+theta[2])
       dmu.dg <- mu
       fv[[2]] <- abs(dp.dg*mu+dmu.dg*p)*se
       names(fv) <- c("fit","se.fit")
