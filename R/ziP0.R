@@ -155,7 +155,7 @@ ziP0 <- function (theta = NULL, link = "identity", b = 0) {
     if (all.equal(y,round(y))!=TRUE) {
       stop("Non-integer response variables are not allowed with ziP ")
     }
-    if (min(y) == 0) stop("No unobserved counts: won't be able to estimate a model")
+    #if (min(y) == 0) stop("No unobserved counts: won't be able to estimate a model")
     ##n <- rep(1, nobs)
     mustart <- log(pmax(0, y) + (y<=0)/5)
   })
